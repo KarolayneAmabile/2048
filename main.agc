@@ -19,41 +19,75 @@ UseNewDefaultFonts( 1 ) // since version 2.0.22 we can use nicer default fonts
 
 SetJoystickScreenPosition ( 50, 300, 64 )
 
-LoadImage ( 1, "fundo1.png" )
-CreateSprite ( 1, 1 )
-SetSpriteSize( 1, 1080, 1350 )
+LoadImage (3, "fundo.png" )
+CreateSprite ( 3, 3 )
 
-// inicia a matrix 4x4
-boardSize = 4
-dim board[boardSize, boardSize]
-for x = 0 to boardSize - 1
-    for y = 0 to boardSize - 1
-        board[x, y] = 0
-    next y
-next x
+score = 0
+rows = 0
+columns = 0
 
-// carrega um array com os blocos
-dim tileImages[11]
-tileImages[0] = LoadImage("2.png")
-tileImages[1] = LoadImage("4.png")
-tileImages[2] = LoadImage("8.png")
-tileImages[3] = LoadImage("16.png")
-tileImages[4] = LoadImage("32.png")
-tileImages[5] = LoadImage("64.png")
-tileImages[6] = LoadImage("128.png")
-tileImages[7] = LoadImage("256.png")
-tileImages[8] = LoadImage("512.png")
-tileImages[9] = LoadImage("1024.png")
-tileImages[10] = LoadImage("2048.png") 
+LoadImage ( 1,"1.png" )
+LoadImage ( 2, "2.png" )
+LoadImage ( 4, "4.png" )
+LoadImage ( 8, "8.png" )
+LoadImage ( 16, "16.png" )
+LoadImage ( 32, "32.png" )
+LoadImage ( 64, "64.png" )
+LoadImage ( 128, "128.png" )
+LoadImage ( 256, "256.png" )
+LoadImage ( 512, "512.png")
+LoadImage ( 1024, "1024.png" )
+LoadImage ( 2048, "2048.png" )
 
-dim tileSprites[boardSize, boardSize]
-for x = 0 to boardSize - 1
-    for y = 0 to boardSize - 1
-        tileSprites[x, y] = 0
-    next y
-next x
+global tilesList as Integer [ 16 ]
+for i = 1 to 16
+	tilesList[i] = CreateSprite(1)
+next i
+
+
+function setGame()
+	dim board[4, 4] as integer
+	for c = 1 to 4
+		for r = 1 to 4
+			board[c, r] = 0
+		next r
+	next c
+	board[1, 1] = 16
+	board[2, 1] = 8
+	board[3, 1] = 4
+	board[4, 1] = 2
+	
+	for c = 1 to 4
+		for r = 1 to 4
+			updateTile(board[c, r], c, r)
+		next r
+	next c
+	
+endfunction
+
+
+function updateTile (tile, c, r)
+	
+	i = (c - 1) * 4 + r
+	
+	if (tile = 0)
+		tile = 1
+	endif
+	
+	x = (c - 1) * 178 + 135 + c * 20
+	y = (r - 1) * 178 + 415 + r * 20
+	
+	SetSpriteImage(tilesList[i], tile)
+	SetSpritePosition(tilesList[i], x, y)
+
+			
+endfunction
+	
+
 
 do
-    Print( ScreenFPS() )
-    Sync()
+	setGame( )
+    Sync ( )
 loop
+
+
