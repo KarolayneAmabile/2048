@@ -82,7 +82,58 @@ function updateTile (tile, c, r)
 
 			
 endfunction
+
 	
+//FUNÇAO 1	
+// Função para mover zeros para a direita em um array 1x4
+function MoveZerosRight(arr[] as integer) as integer[]
+    dim result[4] as integer
+    dim index[] as integer
+    
+    // Copiar os elementos diferentes de zero para a frente do array result
+    for i = 0 to 3
+        if arr[i] <> 0
+            result[index] = arr[i]
+            index = index + 1
+        endif
+    next i
+    
+    // Preencher o restante do array result com zeros
+    for i = index to 3
+        result[i] = 0
+    next i
+    
+    // Retornar o array result
+    return result
+endfunction
+
+
+
+
+//FUNÇAO 2
+// Função que move zeros para a direita em uma matriz
+function moveZerosRight(arr[])
+    local n = arraylength(arr)
+    local count = 0
+
+    // Passa por todos os elementos da matriz
+    for i = 0 to n-1
+        // Se o elemento não for zero, move-o para a posição atual de count
+        if arr[i] != 0
+            arr[count] = arr[i]
+            count = count + 1
+        endif
+    next i
+
+    // Preenche o restante da matriz com zeros
+    while count < n
+        arr[count] = 0
+        count = count + 1
+    endwhile
+endfunction
+
+
+
 
 
 do
