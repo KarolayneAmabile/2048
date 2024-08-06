@@ -19,8 +19,8 @@ UseNewDefaultFonts( 1 ) // since version 2.0.22 we can use nicer default fonts
 
 SetJoystickScreenPosition ( 50, 300, 64 )
 
-LoadImage (3, "fundo.png" )
-CreateSprite ( 3, 3 )
+//LoadImage (3, "fundo.png" )
+//CreateSprite ( 3, 3 )
 
 score = 0
 rows = 0
@@ -52,9 +52,9 @@ function setGame()
 			board[c, r] = 0
 		next r
 	next c
-	board[1, 1] = 16
-	board[2, 1] = 8
-	board[3, 1] = 4
+	board[1, 1] = 8
+	board[2, 1] = 4
+	board[3, 1] = 2
 	board[4, 1] = 2
 	
 	for c = 1 to 4
@@ -63,11 +63,12 @@ function setGame()
 		next r
 	next c
 	
+	eventListener()
+	
 endfunction
 
 
 function updateTile (tile, c, r)
-	
 	i = (c - 1) * 4 + r
 	
 	if (tile = 0)
@@ -79,8 +80,6 @@ function updateTile (tile, c, r)
 	
 	SetSpriteImage(tilesList[i], tile)
 	SetSpritePosition(tilesList[i], x, y)
-
-			
 endfunction
 
 	
@@ -116,7 +115,37 @@ function slide(row as integer[])
 	
 	row = movesZero(row)
 endfunction row
+
+function slideLeft( )
+	dim row[4] // tempory variable to storage each row 
 	
+	for i = 0 to 3 // started from the first line
+		for j = 0 to 3 // copy each element from the first line 
+			row[j] = board[j, i] // storage the first line in row temp variable
+		// board(columm, line) 
+		next j 
+		
+		row = slide(row) // sends row to slide
+		
+		for j = 0 to 3 // update board
+			board[j, i] = row[j]
+			updateTile (board[j, i], j, i)
+			print(row[j])
+		next j
+	next i
+	
+endfunction
+
+function eventListener()
+	if (GetRawKeyPressed(37) = 1) // left
+		slideLeft()
+	endif
+	//elseif (GetRawKeyPressed(39) = 1) // right
+	//elseif (GetRawKeyPressed(38) = 1) // up
+	//elseif (GetRawKeyPressed(40) = 1) // down
+	
+endfunction
+
 do
 	setGame( )
     Sync ( )
