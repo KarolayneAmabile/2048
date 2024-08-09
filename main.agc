@@ -1,4 +1,3 @@
-
 // Project: 2048 
 // Created: 2024-07-15
 
@@ -19,8 +18,9 @@ UseNewDefaultFonts( 1 ) // since version 2.0.22 we can use nicer default fonts
 
 SetJoystickScreenPosition ( 50, 300, 64 )
 
-//LoadImage (3, "fundo.png" )
-//CreateSprite ( 3, 3 )
+LoadImage (3, "fundo.png" )
+CreateSprite ( 3, 3 )
+
 
 score = 0
 rows = 0
@@ -43,20 +43,19 @@ global tilesList as Integer [ 16 ]
 for i = 1 to 16
 	tilesList[i] = CreateSprite(1)
 next i
+global dim board[4, 4] as integer
+for c = 1 to 4
+	for r = 1 to 4
+		board[c, r] = 0
+	next r
+next c
+board[3, 1] = 2
+board[4, 1] = 2
+board[1, 1] = 8
+board[2, 1] = 4
 
 
-function setGame()
-	dim board[4, 4] as integer
-	for c = 1 to 4
-		for r = 1 to 4
-			board[c, r] = 0
-		next r
-	next c
-	board[1, 1] = 8
-	board[2, 1] = 4
-	board[3, 1] = 2
-	board[4, 1] = 2
-	
+function updateGame()
 	for c = 1 to 4
 		for r = 1 to 4
 			updateTile(board[c, r], c, r)
@@ -86,17 +85,17 @@ endfunction
 // moves 0's elementos to the right
 function movesZero (arr as integer[])
     dim result[4] as integer
-    index = 0
+    index = 1
     
 	// create a array with elements != 0
-    for i = 0 to 3
+    for i = 1 to 4
         if arr[i] <> 0
             result[index] = arr[i]
             index = index + 1
         endif
     next i
 
-    for i = index to 3
+    for i = index to 4
         result[i] = 0
     next i
     
@@ -104,33 +103,31 @@ endfunction result
 
 function slide(row as integer[])
 	row = movesZero(row)
-	
-	for i = 0 to 3
+
+	for i = 1 to 3
 		if(row[i] = row[i + 1])
 			row[i] = row[i] * 2
 			row[i + 1] = 0
 			score = score + row[i]
 		endif
 	next i
-	
-	row = movesZero(row)
+
 endfunction row
 
 function slideLeft( )
 	dim row[4] // tempory variable to storage each row 
 	
-	for i = 0 to 3 // started from the first line
-		for j = 0 to 3 // copy each element from the first line 
+	for i = 1 to 4 // started from the first line
+		for j = 1 to 4 // copy each element from the first line 
 			row[j] = board[j, i] // storage the first line in row temp variable
-		// board(columm, line) 
+		//board(columm, line) 
 		next j 
 		
 		row = slide(row) // sends row to slide
 		
-		for j = 0 to 3 // update board
+		for j = 1 to 4 // update board
 			board[j, i] = row[j]
 			updateTile (board[j, i], j, i)
-			print(row[j])
 		next j
 	next i
 	
@@ -147,7 +144,8 @@ function eventListener()
 endfunction
 
 do
-	setGame( )
+	updateGame( )
     Sync ( )
 loop
+
 
