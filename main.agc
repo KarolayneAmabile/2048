@@ -49,11 +49,26 @@ for c = 1 to 4
 		board[c, r] = 0
 	next r
 next c
-board[3, 1] = 2
-board[4, 1] = 2
-board[1, 1] = 8
-board[2, 1] = 4
 
+board[4, 1] = 2
+board[3, 1] = 2
+board[2, 1] = 2
+board[1, 1] = 2
+
+board[3, 2] = 2
+board[4, 2] = 2
+board[1, 2] = 8
+board[2, 2] = 4
+
+board[3, 3] = 2
+board[4, 3] = 2
+board[1, 3] = 8
+board[2, 3] = 4
+
+board[3, 4] = 2
+board[4, 4] = 2
+board[1, 4] = 8
+board[2, 4] = 4
 
 function updateGame()
 	for c = 1 to 4
@@ -65,7 +80,6 @@ function updateGame()
 	eventListener()
 	
 endfunction
-
 
 function updateTile (tile, c, r)
 	i = (c - 1) * 4 + r
@@ -101,6 +115,7 @@ function movesZero (arr as integer[])
     
 endfunction result
 
+
 function slide(row as integer[])
 	row = movesZero(row)
 
@@ -111,6 +126,8 @@ function slide(row as integer[])
 			score = score + row[i]
 		endif
 	next i
+	
+	row = movesZero(row)
 
 endfunction row
 
@@ -133,14 +150,36 @@ function slideLeft( )
 	
 endfunction
 
+function slideUp( )
+	dim column[4]
+	
+	for j = 1 to 4 // started from the first columnn
+		for i = 1 to 4 // copy each element of each line board(columm, line) 
+			column[i] = board[j, i]
+		next i
+			
+		column = slide(column)
+	
+		for i = 1 to 4
+			board[j, i] = column[i]
+			updateTile (board[j, i], j, i)
+		next i
+	next j
+	
+endfunction
+
+
+
 function eventListener()
 	if (GetRawKeyPressed(37) = 1) // left
 		slideLeft()
-	endif
 	//elseif (GetRawKeyPressed(39) = 1) // right
-	//elseif (GetRawKeyPressed(38) = 1) // up
+	//	slideRight()
+	elseif(GetRawKeyPressed(38) = 1) // up
+		slideUp()
 	//elseif (GetRawKeyPressed(40) = 1) // down
-	
+	//	slideDown()
+	endif
 endfunction
 
 do
