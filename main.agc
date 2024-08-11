@@ -150,7 +150,43 @@ function slideLeft( )
 	
 endfunction
 
+
+function slideRight (  )
+	dim row [4]
+	
+	for i = 1 to 4
+		for j = 1 to 4
+			row[j] = board[j, i]
+		next j
+			
+		row = slide(row)
+		
+        for j = 1 to 4 
+			board[j, i] = row[j]
+			updateTile (board[j, i], j, i)
+		next j
+	next i
+	
+endfunction
+
 function slideUp( )
+	dim column[4]
+	
+	for j = 1 to 4 // started from the first columnn
+		for i = 1 to 4 // copy each element of each line board(columm, line) 
+			column[i] = board[j, i]
+		next i
+			
+		column = slide(column)
+	
+		for i = 1 to 4
+			board[j, i] = column[i]
+			updateTile (board[j, i], j, i)
+		next i
+	next j
+endfunction
+
+function slideDown( )
 	dim column[4]
 	
 	for j = 1 to 4 // started from the first columnn
@@ -170,12 +206,13 @@ endfunction
 function eventListener()
 	if (GetRawKeyPressed(37) = 1) // left
 		slideLeft()
-	//elseif (GetRawKeyPressed(39) = 1) // right
-	//	slideRight()
+	elseif (GetRawKeyPressed(39) = 1) // right
+		slideRight()
 	elseif(GetRawKeyPressed(38) = 1) // up
 		slideUp()
-	//elseif (GetRawKeyPressed(40) = 1) // down
-	//	slideDown()
+	elseif (GetRawKeyPressed(40) = 1) // down
+		slideDown()
+	
 	endif
 endfunction
 
@@ -183,5 +220,4 @@ do
 	updateGame( )
     Sync ( )
 loop
-
 
