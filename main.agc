@@ -55,20 +55,20 @@ board[3, 1] = 2
 board[2, 1] = 2
 board[1, 1] = 2
 
-board[3, 2] = 2
 board[4, 2] = 2
-board[1, 2] = 8
-board[2, 2] = 4
+board[3, 2] = 2
+board[2, 2] = 2
+board[1, 2] = 2
 
-board[3, 3] = 2
-board[4, 3] = 2
-board[1, 3] = 8
+board[4, 3] = 8
+board[3, 3] = 8
 board[2, 3] = 4
+board[1, 3] = 4
 
-board[3, 4] = 2
-board[4, 4] = 2
-board[1, 4] = 8
+board[4, 4] = 8
+board[3, 4] = 8
 board[2, 4] = 4
+board[1, 4] = 4
 
 function updateGame()
 	for c = 1 to 4
@@ -130,7 +130,7 @@ function slide(row as integer[])
 	row = movesZero(row)
 
 endfunction row
-
+	
 function slideLeft( )
 	dim row[4] // tempory variable to storage each row 
 	
@@ -165,10 +165,7 @@ function slideUp( )
 			updateTile (board[j, i], j, i)
 		next i
 	next j
-	
 endfunction
-
-
 
 function eventListener()
 	if (GetRawKeyPressed(37) = 1) // left
