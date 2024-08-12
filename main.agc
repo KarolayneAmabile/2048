@@ -115,6 +115,14 @@ function movesZero (arr as integer[])
     
 endfunction result
 
+function inverse (row as integer[])
+	dim temp[4]
+	n = 4
+	for i = 1 to 4 
+		temp[i] = row[n]
+		n = n - 1
+	next i
+endfunction temp
 
 function slide(row as integer[])
 	row = movesZero(row)
@@ -151,15 +159,17 @@ function slideLeft( )
 endfunction
 
 
-function slideRight (  )
+function slideRight( )
 	dim row [4]
 	
 	for i = 1 to 4
 		for j = 1 to 4
 			row[j] = board[j, i]
 		next j
-			
+		
+		row = inverse(row)
 		row = slide(row)
+		row = inverse(row)
 		
         for j = 1 to 4 
 			board[j, i] = row[j]
@@ -193,8 +203,10 @@ function slideDown( )
 		for i = 1 to 4 // copy each element of each line board(columm, line) 
 			column[i] = board[j, i]
 		next i
-			
+		
+		column = inverse(column)
 		column = slide(column)
+		column = inverse(column)
 	
 		for i = 1 to 4
 			board[j, i] = column[i]
