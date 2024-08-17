@@ -23,8 +23,6 @@ CreateSprite ( 3, 3 )
 
 
 score = 0
-rows = 0
-columns = 0
 
 LoadImage ( 1,"1.png" )
 LoadImage ( 2, "2.png" )
@@ -50,26 +48,6 @@ for c = 1 to 4
 	next r
 next c
 
-board[4, 1] = 2
-board[3, 1] = 2
-board[2, 1] = 2
-board[1, 1] = 2
-
-board[4, 2] = 2
-board[3, 2] = 2
-board[2, 2] = 2
-board[1, 2] = 2
-
-board[4, 3] = 8
-board[3, 3] = 8
-board[2, 3] = 4
-board[1, 3] = 4
-
-board[4, 4] = 8
-board[3, 4] = 8
-board[2, 4] = 4
-board[1, 4] = 4
-
 function updateGame()
 	for c = 1 to 4
 		for r = 1 to 4
@@ -78,7 +56,6 @@ function updateGame()
 	next c
 	
 	eventListener()
-	
 endfunction
 
 function updateTile (tile, c, r)
@@ -136,7 +113,6 @@ function slide(row as integer[])
 	next i
 	
 	row = movesZero(row)
-
 endfunction row
 	
 function slideLeft( )
@@ -157,7 +133,6 @@ function slideLeft( )
 	next i
 	
 endfunction
-
 
 function slideRight( )
 	dim row [4]
@@ -218,13 +193,46 @@ endfunction
 function eventListener()
 	if (GetRawKeyPressed(37) = 1) // left
 		slideLeft()
+		addNewTile()
 	elseif (GetRawKeyPressed(39) = 1) // right
 		slideRight()
+		addNewTile()
 	elseif(GetRawKeyPressed(38) = 1) // up
 		slideUp()
+		addNewTile()
 	elseif (GetRawKeyPressed(40) = 1) // down
 		slideDown()
-	
+		addNewTile()
+	endif
+endfunction
+
+function status()
+	bool = 1
+	for r = 1 to 4
+		for c = 1 to 4
+			if(board[c, r] = 0) // 0 means that have empty files
+				bool = 0
+				exit
+			elseif(board[c, r] = 2048) // 2 means win 
+				bool = 2
+				exit
+			endif
+		next c
+	next r
+endfunction bool
+
+function addNewTile()
+	if(status() = 0)
+		found = 1
+		while(found = 1)
+			r = random(1, 4)
+			c = random(1, 4)
+				if (board[c, r] = 0)
+					board[c, r] = 2
+					updateTile (board[c, r], c, r)
+					exit
+				endif
+		endwhile
 	endif
 endfunction
 
