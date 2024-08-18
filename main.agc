@@ -21,8 +21,8 @@ SetJoystickScreenPosition ( 50, 300, 64 )
 LoadImage (3, "fundo.png" )
 CreateSprite ( 3, 3 )
 
-
-score = 0
+global score = 0
+global start = 2
 
 LoadImage ( 1,"1.png" )
 LoadImage ( 2, "2.png" )
@@ -41,12 +41,20 @@ global tilesList as Integer [ 16 ]
 for i = 1 to 16
 	tilesList[i] = CreateSprite(1)
 next i
+
 global dim board[4, 4] as integer
 for c = 1 to 4
 	for r = 1 to 4
 		board[c, r] = 0
 	next r
 next c
+
+function setGame()
+	if (start > 0)
+		start = start - 1
+		addNewTile()
+	endif
+endfunction
 
 function updateGame()
 	for c = 1 to 4
@@ -101,6 +109,13 @@ function inverse (row as integer[])
 	next i
 endfunction temp
 
+function isEqual (oldRow as integer[], newRow as integer[])
+	valid = 0
+	if ((oldRow[1] = newRow[1]) and (oldRow[2] = newRow[2]) and (oldRow[3] = newRow[3]) and (newRow[4] = oldRow[4]))
+		valid = 1
+	endif
+endfunction valid
+
 function slide(row as integer[])
 	row = movesZero(row)
 
@@ -117,109 +132,144 @@ endfunction row
 	
 function slideLeft( )
 	dim row[4] // tempory variable to storage each row 
+	dim oldRow[4]
+	errorCode = 0
 	
 	for i = 1 to 4 // started from the first line
 		for j = 1 to 4 // copy each element from the first line 
 			row[j] = board[j, i] // storage the first line in row temp variable
-		//board(columm, line) 
+			oldRow[j] = board[j, i]
+		//board(columm, laine) 
 		next j 
 		
 		row = slide(row) // sends row to slide
+		valid = isEqual(oldRow, row)
+		errorCode = errorCode + valid
 		
-		for j = 1 to 4 // update board
-			board[j, i] = row[j]
-			updateTile (board[j, i], j, i)
-		next j
+		if (valid = 0)
+			for j = 1 to 4 // update board
+				board[j, i] = row[j]
+				updateTile (board[j, i], j, i)
+			next j
+		endif
 	next i
-	
-endfunction
+endfunction errorCode
 
 function slideRight( )
 	dim row [4]
+	dim oldRow[4]
+	errorCode = 0
 	
 	for i = 1 to 4
 		for j = 1 to 4
 			row[j] = board[j, i]
+			oldRow[j] = board[j, i]
 		next j
 		
 		row = inverse(row)
 		row = slide(row)
 		row = inverse(row)
 		
-        for j = 1 to 4 
-			board[j, i] = row[j]
-			updateTile (board[j, i], j, i)
-		next j
+		valid = isEqual(oldRow, row)
+		errorCode = errorCode + valid
+		
+		if (valid = 0)
+			for j = 1 to 4 
+				board[j, i] = row[j]
+				updateTile (board[j, i], j, i)
+			next j
+		endif
 	next i
-	
-endfunction
+endfunction errorCode
 
 function slideUp( )
 	dim column[4]
+	dim oldColumn[4]
+	errorCode = 0
 	
 	for j = 1 to 4 // started from the first columnn
 		for i = 1 to 4 // copy each element of each line board(columm, line) 
 			column[i] = board[j, i]
+			oldColumn[i] = board[j, i]
 		next i
 			
 		column = slide(column)
-	
-		for i = 1 to 4
-			board[j, i] = column[i]
-			updateTile (board[j, i], j, i)
-		next i
+		valid = isEqual(oldColumn, column)
+		errorCode = errorCode + valid
+
+		if (valid = 0)
+			for i = 1 to 4
+				board[j, i] = column[i]
+				updateTile (board[j, i], j, i)
+			next i
+		endif
 	next j
-endfunction
+endfunction errorCode
 
 function slideDown( )
 	dim column[4]
+	dim oldColumn[4]
+	errorCode = 0
 	
 	for j = 1 to 4 // started from the first columnn
 		for i = 1 to 4 // copy each element of each line board(columm, line) 
 			column[i] = board[j, i]
+			oldColumn[i] = board[j, i]
 		next i
 		
 		column = inverse(column)
 		column = slide(column)
 		column = inverse(column)
+		valid = isEqual(oldColumn, column)
+		errorCode = errorCode + valid
 	
-		for i = 1 to 4
-			board[j, i] = column[i]
-			updateTile (board[j, i], j, i)
-		next i
+		if (valid = 0)
+			for i = 1 to 4
+				board[j, i] = column[i]
+				updateTile (board[j, i], j, i)
+			next i
+		endif
 	next j
-endfunction
+endfunction errorCode
 
 function eventListener()
 	if (GetRawKeyPressed(37) = 1) // left
-		slideLeft()
-		addNewTile()
+		canMove = slideLeft()
+		if (canMove <> 4)
+			addNewTile()
+		endif
 	elseif (GetRawKeyPressed(39) = 1) // right
-		slideRight()
-		addNewTile()
+		canMove = slideRight()
+		if (canMove <> 4)
+			addNewTile()
+		endif
 	elseif(GetRawKeyPressed(38) = 1) // up
-		slideUp()
-		addNewTile()
+		canMove = slideUp()
+		if (canMove <> 4)
+			addNewTile()
+		endif
 	elseif (GetRawKeyPressed(40) = 1) // down
-		slideDown()
-		addNewTile()
+		canMove = slideDown()
+		if (canMove <> 4)
+			addNewTile()
+		endif
 	endif
 endfunction
 
 function status()
-	bool = 1
+	status = 1
 	for r = 1 to 4
 		for c = 1 to 4
 			if(board[c, r] = 0) // 0 means that have empty files
-				bool = 0
+				status = 0
 				exit
 			elseif(board[c, r] = 2048) // 2 means win 
-				bool = 2
+				status = 2
 				exit
 			endif
 		next c
 	next r
-endfunction bool
+endfunction status
 
 function addNewTile()
 	if(status() = 0)
@@ -237,7 +287,7 @@ function addNewTile()
 endfunction
 
 do
+	setGame()
 	updateGame( )
     Sync ( )
 loop
-
