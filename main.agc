@@ -14,14 +14,27 @@ SetVirtualResolution( 1080, 1350 ) // doesn't have to match the window
 SetOrientationAllowed( 1, 1, 1, 1 ) // allow both portrait and landscape on mobile devices
 SetSyncRate( 30, 0 ) // 30fps instead of 60 to save battery
 SetScissor( 0,0,0,0 ) // use the maximum available screen space, no black borders
-UseNewDefaultFonts( 1 ) // since version 2.0.22 we can use nicer default fonts
 
 SetJoystickScreenPosition ( 50, 300, 64 )
 
 LoadImage (3, "fundo.png" )
 CreateSprite ( 3, 3 )
+LoadFont(1, "montserrat-semi-bold.ttf")
 
 global score = 0
+
+createText(1, str(score))
+SetTextSize(1, 60)
+SetTextPosition(1, 670, 130)
+SetTextAlignment(1, 1)
+SetTextFont( 1, 1 )
+
+global highScore = 2048
+createText(2, str(highScore))
+SetTextSize(2, 60)
+SetTextPosition(2, 857, 130)
+SetTextAlignment(2, 1)
+SetTextFont( 2, 1 )
 
 global start = 2
 
@@ -50,14 +63,19 @@ for c = 1 to 4
 	next r
 next c
 
+function printScore()
+	SetTextString( 1, str(score))
+	if (score > highScore)
+		highScore = score
+	endif
+	SetTextString( 2, str(highScore))
+endfunction
+
 function setGame()
 	if (start > 0)
 		start = start - 1
 		addNewTile()
 	endif
-	
-	
-	
 endfunction
 
 function updateGame()
@@ -66,7 +84,6 @@ function updateGame()
 			updateTile(board[c, r], c, r)
 		next r
 	next c
-	
 	eventListener()
 endfunction
 
@@ -298,7 +315,7 @@ endfunction
 
 do
 	setGame()
-	updateGame( )
-	print(score)
+	updateGame()
+	printScore()
     Sync ( )
 loop
