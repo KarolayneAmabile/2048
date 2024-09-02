@@ -22,6 +22,7 @@ LoadImage (3, "fundo.png" )
 CreateSprite ( 3, 3 )
 
 global score = 0
+
 global start = 2
 
 LoadImage ( 1,"1.png" )
@@ -54,6 +55,9 @@ function setGame()
 		start = start - 1
 		addNewTile()
 	endif
+	
+	
+	
 endfunction
 
 function updateGame()
@@ -295,5 +299,6 @@ endfunction
 do
 	setGame()
 	updateGame( )
+	print(score)
     Sync ( )
 loop
