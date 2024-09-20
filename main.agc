@@ -15,13 +15,12 @@ SetOrientationAllowed( 1, 1, 1, 1 ) // allow both portrait and landscape on mobi
 SetSyncRate( 30, 0 ) // 30fps instead of 60 to save battery
 SetScissor( 0,0,0,0 ) // use the maximum available screen space, no black borders
 
-SetJoystickScreenPosition ( 50, 300, 64 )
-
 LoadImage (3, "fundo.png" )
 CreateSprite ( 3, 3 )
-LoadFont(1, "montserrat-semi-bold.ttf")
 
 global score = 0
+
+LoadFont(1, "montserrat-semi-bold.ttf")
 
 createText(1, str(score))
 SetTextSize(1, 60)
@@ -51,6 +50,10 @@ LoadImage ( 512, "512.png")
 LoadImage ( 1024, "1024.png" )
 LoadImage ( 2048, "2048.png" )
 
+victory = LoadImage ( "telaVitoria.png")
+defeat = LoadImage ( "telaDerrota.png")
+continua = LoadImage ( "continuar.png")
+
 global tilesList as Integer [ 16 ]
 for i = 1 to 16
 	tilesList[i] = CreateSprite(1)
@@ -76,6 +79,25 @@ function setGame()
 		start = start - 1
 		addNewTile()
 	endif
+endfunction
+
+
+LoadImage ( 7, "novoJogo.png" )
+CreateSprite ( 7, 7 )
+SetSpritePosition( 7, 728, 278 )
+
+function newGame()
+	if GetPointerState()
+        if GetSpriteHitTest(7,GetPointerX(),GetPointerY())
+			start = 2
+			score = 0
+			for c = 1 to 4
+				for r = 1 to 4
+					board[c, r] = 0
+				next r
+			next c
+        endif
+    endif
 endfunction
 
 function updateGame()
@@ -278,10 +300,15 @@ function eventListener()
 endfunction
 
 function status()
+	// code status
+	// 0 - game continue
+	// 1 - lose
+	// 2 - victory
+	
 	status = 1
 	for r = 1 to 4
 		for c = 1 to 4
-			if(board[c, r] = 0) // 0 means that have empty files
+			if(board[c, r] = 0) // 0 means that we still have empty files
 				status = 0
 				exit
 			elseif(board[c, r] = 2048) // 2 means win 
@@ -293,13 +320,13 @@ function status()
 endfunction status
 
 function addNewTile()
-	if(status() = 0)
+	if(status() = 0 or status() = 2) 
 		found = 1
 		while(found = 1)
 			r = random(1, 4)
 			c = random(1, 4)
 				if (board[c, r] = 0)
-					if (random(1, 4) = 1) // there's only 20% chance that the new piece will be 4
+					if (random(1, 5) = 1) // there's only 20% chance that the new piece will be 4
 						board[c, r] = 4
 						updateTile (board[c, r], c, r)
 						exit
@@ -314,8 +341,14 @@ function addNewTile()
 endfunction
 
 do
+	newGame()
 	setGame()
 	updateGame()
 	printScore()
+	
+	if (status() = 1)
+		CreateSprite(defeat)
+	endif
+	
     Sync ( )
 loop
