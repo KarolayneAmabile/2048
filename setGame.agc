@@ -10,13 +10,22 @@ for c = 1 to 4
 	next r
 next c
 
+OpenToRead (1, "score.txt" )
+highScore = ReadInteger(1)
+CloseFile (1) 
+
 function printScore()
-	SetTextString( 1, str(score))
-	if (score > highScore)
-		highScore = score
-	endif
-	SetTextString( 2, str(highScore))
+    SetTextString( 1, str(score))
+    if (score > highScore)
+        highScore = score
+        OpenToWrite (1, "score.txt", 0)
+        WriteInteger (1, highScore)
+        CloseFile (1) 
+    endif
+
+    SetTextString( 2, str(highScore))
 endfunction
+
 
 function setGame()
 	if (start > 0)
