@@ -33,5 +33,6 @@ LoadImage ( 451, "novoJogo.png" )
 CreateSprite ( 451, 451 )
 SetSpritePosition( 451, 728, 278 )
 
+LoadImage ( 892, "telaDerrota.png" )
 
 
