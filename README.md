@@ -40,11 +40,11 @@ O **2048** é um jogo de quebra-cabeça numérico que ocorre em um tabuleiro de 
 
 Este projeto é uma implementação educacional e **não é uma versão oficial do jogo 2048**. O conceito original do jogo foi criado por **Gabriele Cirulli**, e sua versão foi lançada sob a licença **MIT**. Esta versão do jogo foi desenvolvida exclusivamente para fins acadêmicos e não possui intenção de ser utilizada para fins comerciais.
 
-O código desenvolvido para esta versão é de autoria de **Karolayne Borges** e *Ana Laura Pereira*, e pode ser modificado e distribuído para fins educacionais. Quaisquer referências ao projeto original devem respeitar os termos da licença do criador original.
+O código desenvolvido para esta versão é de autoria de **Karolayne Borges** e **Ana Laura Pereira**, e pode ser modificado e distribuído para fins educacionais. Quaisquer referências ao projeto original devem respeitar os termos da licença do criador original.
 
 ## Créditos
 
-- **Desenvolvedores:** Karolayne Amábile
-- **Disciplina:** Laboratório de Programação - Bacharelado em Ciência da Computação
+- **Desenvolvedores:** Karolayne Amábile Brito Borges e Ana Laura Machado Pereira
+- **Disciplina:** Laboratório de Programação - Bacharelado em Ciência da Computação, Instituto Federal de Educação, Ciência e Tecnologia de Goiás
 
 ---
