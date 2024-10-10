@@ -5,21 +5,10 @@ function menu()
 	hasPlayerLost = hasLost()	
 
 	if (hasPlayerLost = 8)
-		//background = CreateSprite(0)
-		//SetSpriteSize(background, 810, 810)
-		//SetSpritePosition(background, 135, 135)
-		//SetSpriteColorAlpha( background, 30 )
-		//SetSpriteColor(background, 238, 190, 165, 30)
 
-		//default as string = "DERROTA"
-		//CreateText (4, default)
-		//SetTextSize(4, 180)
-		//SetTextPosition(4, 540, 700)
-		//SetTextAlignment(4, 1)
-		//SetTextFont( 4, 1 )
 		CreateSprite ( 892, 892 )
 		SetSpritePosition( 892, 135, 415 )
-		SetSpriteVisible(892, 0)
+		SetSpriteVisible(892, 1)
 	endif 
 	
 	if (status() = 0)
