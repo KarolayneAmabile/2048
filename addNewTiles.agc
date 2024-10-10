@@ -1,6 +1,6 @@
 
 function addNewTile()
-	if(status() = 0 or status() = 2) 
+	if(status() = 0) 
 		found = 1
 		while(found = 1)
 			r = random(1, 4)

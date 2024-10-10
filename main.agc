@@ -9,6 +9,7 @@
 global score = 0
 global start = 2
 global highScore = 0
+global hasWon = 0
 
 global tilesList as Integer [ 16 ]
 global dim board[4, 4] as integer
@@ -24,11 +25,14 @@ global dim board[4, 4] as integer
 #insert "addNewTiles.agc" 
 // adds a new tile (2 or 4) to the board in an empty spot after each move
 
+#insert "mainMenu.agc"
+
 do
 	newGame()
 	setGame()
 	updateGame()
 	printScore()
+	menu()
 	
 	//if (status() = 1)
 	//	CreateSprite(defeat)
