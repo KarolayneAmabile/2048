@@ -1,9 +1,5 @@
 
 function status()
-	// code status
-	// 0 - game continue
-	// 1 - lose
-
 	status = 1
 	for r = 1 to 4
 		for c = 1 to 4

@@ -29,9 +29,9 @@ LoadImage ( 512, "512.png")
 LoadImage ( 1024, "1024.png" )
 LoadImage ( 2048, "2048.png" )
 
-LoadImage ( 7, "novoJogo.png" )
-CreateSprite ( 7, 7 )
-SetSpritePosition( 7, 728, 278 )
+LoadImage ( 451, "novoJogo.png" )
+CreateSprite ( 451, 451 )
+SetSpritePosition( 451, 728, 278 )
 
 
 

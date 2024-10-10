@@ -1,45 +1,41 @@
 
+
 function menu()
-	hasPlayerLost = hasLost()		
 	
-	if (hasPlayerLost = 1)
+	hasPlayerLost = hasLost()		
+	if (hasPlayerLost = 8)
 		background = CreateSprite(0)
-		SetSpriteSize(background, 810, 812)
+		SetSpriteSize(background, 810, 810)
 		SetSpritePosition(background, 135, 415)
 		SetSpriteColorAlpha( background, 30 )
-		SetSpriteColor(background, 238, 190, 165, 20)
+		SetSpriteColor(background, 238, 190, 165, 30)
 
 		default as string = "DERROTA"
 		CreateText (4, default)
 		SetTextSize(4, 180)
-		SetTextPosition(4, 540, 633)
+		SetTextPosition(4, 540, 700)
 		SetTextAlignment(4, 1)
 		SetTextFont( 4, 1 )
-		
-		CreateSprite ( 7, 9 )
-		SetSpritePosition( 7, 540, 733 )
-		
 	endif 
+	
+	if (status() = 0)
+		hasPlayerLost = 0
+		DeleteSprite( background )
+		DeleteText( 4 )
+	endif
 	
 endfunction
 
 function hasLost()
-	hasPlayerLost = 1
-	for i = 1 to 4
-		for j = 1 to 4
-			if i > 1 and board[i][j] = board[i - 1][j]
-				hasPlayerLost = hasPlayerLost - 1
-				exit
-			elseif (i < 4 and board[i][j] = board[i + 1][j])
-				hasPlayerLost = hasPlayerLost - 1
-				exit
-			elseif (j > 1 and board[i][j] = board[i][j - 1])
-				hasPlayerLost = hasPlayerLost - 1
-				exit
-			else (j < 3 and board[i][j] = board[i][j + 1])
-				hasPlayerLost = hasPlayerLost - 1
-				exit
+	hasPlayerLost = 0
+	if (status() = 1)
+		for i = 1 to 4
+			if (board[i, 1] <> board[i, 2]) and (board[i, 2] <> board[i, 3]) and (board[i, 3] <> board[i, 4])
+				hasPlayerLost = hasPlayerLost + 1
 			endif
-		next j
-	next i
+			if (board[1, i] <> board[2, i]) and (board[2, i] <> board[3, i]) and board[3, i] <> board[4, i]
+				hasPlayerLost = hasPlayerLost + 1
+			endif 
+		next i
+	endif
 endfunction hasPlayerLost

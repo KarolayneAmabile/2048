@@ -36,7 +36,7 @@ endfunction
 
 function newGame()
 	if GetPointerState()
-        if GetSpriteHitTest(7,GetPointerX(),GetPointerY())
+        if GetSpriteHitTest(451, GetPointerX(), GetPointerY())
 			start = 2
 			score = 0
 			for c = 1 to 4
